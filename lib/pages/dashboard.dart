@@ -14,13 +14,8 @@ class Dashboard extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
             height: 50,
-            child: Center(child: Text("Pecing Jawara Remaja")),
+            child: Center(child: Text("Dashboard")),
           ),
-          Container(
-            height: 50,
-            child: Center(child: Text("Pecing Jawara Dewasa")),
-            color: Colors.white,
-          )
         ],
       ),
     );
