@@ -1,5 +1,6 @@
 import 'package:admin_jawara/pages/daftarbarang.dart';
 import 'package:admin_jawara/pages/dashboard.dart';
+import 'package:admin_jawara/pages/stokkeluar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
@@ -19,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text("Jawara"),
+        title: Text("Admin Jawara"),
         centerTitle: true,
       ),
       body: Row(
@@ -78,7 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Dashboard(),
               DaftarBarang(),
-              Center(child: Text("Stok Keluar")),
+              Center(
+                child: Text("Stok Keluar"),
+              ),
+              // StokKeluar(),
               Center(child: Text("Stok Masuk")),
               Center(child: Text("Orderan WA")),
             ],
