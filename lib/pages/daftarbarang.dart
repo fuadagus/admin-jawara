@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:admin_jawara/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 
@@ -44,61 +42,76 @@ class _DaftarBarangState extends State<DaftarBarang> {
             child: Container(
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
+                  itemExtent: 60,
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Container(
                         color: Colors.white,
-                        height: 40,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        height: 59,
+                        child: Column(
                           children: [
-                            Expanded(
-                              flex: 6,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 4, right: 4),
-                                child: Text(
-                                  items[index],
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
                             Expanded(
                               flex: 1,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 4, right: 4),
-                                child: Text(
-                                  "Stok: " + jumlahStok[index],
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                    const EdgeInsets.only(left: 2, right: 2),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      flex: 6,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 4, right: 4),
+                                        child: Text(
+                                          items[index],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    if (MediaQuery.of(context).size.width >
+                                        1041)
+                                      Expanded(
+                                        flex: 1,
+                                        child: Text(
+                                          "Stok: " + jumlahStok[index],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    if (MediaQuery.of(context).size.width < 400)
+                                      Expanded(
+                                          child: Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 5,
+                                              child: Text(jumlahStok[index])),
+                                          Expanded(
+                                            flex: 5,
+                                            child: IconButton(
+                                                onPressed: () {},
+                                                icon: Icon(Icons.edit)),
+                                          )
+                                        ],
+                                      )),
+                                    if (MediaQuery.of(context).size.width >
+                                        1041)
+                                      Expanded(
+                                        flex: 1,
+                                        child: IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             ),
-                            if (MediaQuery.of(context).size.width > 1041)
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 4, right: 4),
-                                    child: Text(
-                                      "Masuk: " + jumlahStok[index],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-                            if (MediaQuery.of(context).size.width > 1041)
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 4, right: 4),
-                                    child: Text(
-                                      "Keluar: " + jumlahStok[index],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
+                            Expanded(
+                                flex: 1, child: Text("diaupdate oleh:...")),
                           ],
                         ),
                       ),
