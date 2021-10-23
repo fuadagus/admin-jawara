@@ -1,0 +1,5 @@
+List items = [
+  {'nama barang': 'Pecing Jawara Remaja', 'sisa stok': 3, 'kode': '1000'},
+  {'nama barang': 'Pecing Jawara Dewasa', 'sisa stok': 5, 'kode': '1001'},
+  {'nama barang': 'Pecing Jawara Double Hand', 'sisa stok': 1, 'kode': '1002'},
+];

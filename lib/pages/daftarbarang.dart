@@ -1,5 +1,6 @@
 import 'package:admin_jawara/responsive/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:admin_jawara/model/model.dart';
 
 class DaftarBarang extends StatefulWidget {
   const DaftarBarang({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class DaftarBarang extends StatefulWidget {
 }
 
 class _DaftarBarangState extends State<DaftarBarang> {
-  final items = List.generate(1000, (index) => "item $index");
+  final _items = items;
   final jumlahStok = List.generate(1000, (index) => "$index");
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
-                      itemExtent: 80,
+                      itemExtent: 120,
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         return ListTile(
@@ -78,7 +79,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                         offset: Offset(0, 3))
                                   ]),
                               // color: Colors.white,
-                              height: 59,
+                              height: 100,
                               child: Column(
                                 children: [
                                   Expanded(
@@ -96,7 +97,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                               padding: const EdgeInsets.only(
                                                   left: 4, right: 4),
                                               child: Text(
-                                                items[index],
+                                                _items[index]['nama barang'],
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -110,7 +111,9 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                             Expanded(
                                               flex: 1,
                                               child: Text(
-                                                "Stok: " + jumlahStok[index],
+                                                "Stok: " +
+                                                    items[index]['sisa stok']
+                                                        .toString(),
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -126,7 +129,9 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
                                                   children: [
-                                                    Text(jumlahStok[index]),
+                                                    Text(_items[index]
+                                                            ['sisa stok']
+                                                        .toString()),
                                                     IconButton(
                                                         onPressed: () {},
                                                         icon: Icon(Icons.edit))
