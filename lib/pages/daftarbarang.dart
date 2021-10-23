@@ -1,3 +1,4 @@
+import 'package:admin_jawara/component/daftarbarangitem.dart';
 import 'package:admin_jawara/responsive/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_jawara/model/model.dart';
@@ -31,7 +32,6 @@ class _DaftarBarangState extends State<DaftarBarang> {
                         decoration: InputDecoration(
                           icon: Icon(Icons.search),
                           hintText: "Kode/Nama Barang",
-                          // labelText: "Pencarian",
                         ),
                         // onSaved: () {},
                       ),
@@ -59,108 +59,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
               Expanded(
                 child: Container(
                   height: MediaQuery.of(context).size.height,
-                  child: ListView.builder(
-                      itemExtent: 120,
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: Offset(0, 3))
-                                  ]),
-                              // color: Colors.white,
-                              height: 100,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 2, right: 2),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            flex: 6,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4, right: 4),
-                                              child: Text(
-                                                _items[index]['nama barang'],
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                          ),
-                                          if (MediaQuery.of(context)
-                                                  .size
-                                                  .width >
-                                              1041)
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                "Stok: " +
-                                                    items[index]['sisa stok']
-                                                        .toString(),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                          if (MediaQuery.of(context)
-                                                  .size
-                                                  .width <
-                                              400)
-                                            Expanded(
-                                                flex: 3,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Text(_items[index]
-                                                            ['sisa stok']
-                                                        .toString()),
-                                                    IconButton(
-                                                        onPressed: () {},
-                                                        icon: Icon(Icons.edit))
-                                                  ],
-                                                )),
-                                          if (MediaQuery.of(context)
-                                                  .size
-                                                  .width >
-                                              1041)
-                                            Expanded(
-                                              flex: 1,
-                                              child: IconButton(
-                                                icon: Icon(Icons.edit),
-                                                onPressed: () {},
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      flex: 1,
-                                      child: Text("diupdate oleh:...")),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                  child: DaftarBarangItem(),
                 ),
               ),
             ],
