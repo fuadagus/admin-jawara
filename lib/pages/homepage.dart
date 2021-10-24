@@ -79,10 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Dashboard(),
               DaftarBarang(),
-              Center(
-                child: Text("Stok Keluar"),
-              ),
-              // StokKeluar(),
+              // Center(
+              //   child: Text("Stok Keluar"),
+              // ),
+              StokKeluar(),
               Center(child: Text("Stok Masuk")),
               Center(child: Text("Orderan WA")),
             ],
