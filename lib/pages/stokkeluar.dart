@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
-  String _scanBarcode = 'Unknown';
+  String _scanBarcode = 'Scan Sek To';
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _ScannerState extends State<Scanner> {
 
   Future<void> startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+            '#ff6666', 'Gak Sido', true, ScanMode.BARCODE)!
         .listen((barcode) => print(barcode));
   }
 
@@ -44,7 +44,7 @@ class _ScannerState extends State<Scanner> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
+          '#ff6666', 'Gak Sido', true, ScanMode.QR);
       print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -66,7 +66,7 @@ class _ScannerState extends State<Scanner> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+          '#ff6666', 'Gak Sido', true, ScanMode.BARCODE);
       print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -76,16 +76,75 @@ class _ScannerState extends State<Scanner> {
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
+    if (barcodeScanRes.contains("~*~")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("~*~") + 3);
+      });
+    }
+    if (barcodeScanRes.contains("`*`")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("`*`") + 3);
+      });
+    }
+    if (barcodeScanRes.contains("`*~")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("`*~") + 3);
+      });
+    }
+    if (barcodeScanRes.contains("~8`")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("~8`") + 3);
+      });
+    }
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    if (barcodeScanRes.contains("`8`")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("`8`") + 3);
+      });
+    }
+    if (barcodeScanRes.contains("`8~")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("`8~") + 3);
+      });
+    }
+    if (barcodeScanRes.contains("~*`")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("~*`") + 3);
+      });
+    }
+    if (barcodeScanRes.contains("~*~")) {
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("~*~") + 3);
+      });
+    } else
+      setState(() {
+        _scanBarcode =
+            barcodeScanRes.substring(barcodeScanRes.indexOf("~*~") + 3);
+      });
+
+// else
+//     setState(() {
+//       _scanBarcode = barcodeScanRes;
+//     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Barcode scan')),
+        appBar: AppBar(
+            backgroundColor: Colors.red,
+            title: const Text(
+              'Stok Keluar',
+              style: TextStyle(color: Colors.white),
+            )),
         body: Builder(builder: (BuildContext context) {
           return Container(
               alignment: Alignment.center,
@@ -94,16 +153,22 @@ class _ScannerState extends State<Scanner> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ElevatedButton(
-                        onPressed: () => scanBarcodeNormal(),
-                        child: Text('Start barcode scan')),
-                    ElevatedButton(
-                        onPressed: () => scanQR(),
-                        child: Text('Start QR scan')),
-                    ElevatedButton(
-                        onPressed: () => startBarcodeScanStream(),
-                        child: Text('Start barcode scan stream')),
-                    Text('Scan result : $_scanBarcode\n',
-                        style: TextStyle(fontSize: 20))
+                        onPressed: () {
+                          scanBarcodeNormal();
+                        },
+                        child: Text(
+                          'Scan Kene Bro',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    // ElevatedButton(
+                    //     onPressed: () => scanQR(), child: Text('Lak QR Kene')),
+                    // // ElevatedButton(
+                    // //     onPressed: () {
+                    // //       startBarcodeScanStream();
+                    // //     },
+                    // //     child: Text('scan Teros')),
+                    Text('Hasile : $_scanBarcode\n',
+                        style: TextStyle(fontSize: 20)),
                   ]));
         }));
   }

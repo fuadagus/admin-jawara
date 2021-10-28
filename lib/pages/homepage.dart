@@ -1,6 +1,7 @@
 import 'package:admin_jawara/pages/daftarbarang.dart';
 import 'package:admin_jawara/pages/dashboard.dart';
 import 'package:admin_jawara/pages/stokkeluar.dart';
+import 'package:admin_jawara/pages/stokmasuk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //   child: Text("Stok Keluar"),
               // ),
               StokKeluar(),
-              Center(child: Text("Stok Masuk")),
+              StokMasuk(),
               Center(child: Text("Orderan WA")),
             ],
           ))
