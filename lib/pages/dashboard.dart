@@ -6,18 +6,16 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        padding: EdgeInsets.all(0),
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            height: 50,
-            child: Center(child: Text("Dashboard")),
-          ),
-        ],
-      ),
+    return ListView(
+      padding: const EdgeInsets.all(0),
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          height: 50,
+          child: const Center(child: Text("Dashboard")),
+        ),
+      ],
     );
   }
 }

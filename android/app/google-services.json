@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824846152754",
+    "project_id": "admin-jawara",
+    "storage_bucket": "admin-jawara.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824846152754:android:9be5e8eaffdbff72c7382b",
+        "android_client_info": {
+          "package_name": "com.example.admin_jawara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824846152754-ncujje5c6j1uvks66se6vbi3bsrvrpg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV_5Jx7hI-Z0kcar0idkNlAK9WwOPJR2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824846152754-ncujje5c6j1uvks66se6vbi3bsrvrpg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

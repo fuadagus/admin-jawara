@@ -22,13 +22,13 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.amber,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: Offset(0, 3))
+                          offset: const Offset(0, 3))
                     ]),
                 height: MediaQuery.of(context).size.width < 420 ? 180 : 130,
                 child: Padding(
@@ -50,7 +50,7 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                                   child: Center(
                                     child: Text(
                                       _items[index]['nama barang'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -67,7 +67,7 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                               children: [
                                 Text(
                                   _items[index]['sisa stok'].toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -83,7 +83,7 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                                 child: Center(
                                   child: Text(
                                     items[index]['sisa stok'].toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -93,7 +93,7 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                             if (MediaQuery.of(context).size.width < 420)
                               ElevatedButton(
                                   onPressed: () {},
-                                  child: Text(
+                                  child: const Text(
                                     "EDIT",
                                     style: TextStyle(color: Colors.white),
                                   )),
@@ -110,12 +110,12 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                                 child: Text(
                                     'ID: ' + _items[index]['kode'].toString()),
                               ),
-                              Expanded(
+                              const Expanded(
                                   flex: 1, child: Text("diupdate oleh:...")),
                               if (MediaQuery.of(context).size.width > 420)
                                 ElevatedButton(
                                     onPressed: () {},
-                                    child: Text(
+                                    child: const Text(
                                       "EDIT",
                                       style: TextStyle(color: Colors.white),
                                     )),
