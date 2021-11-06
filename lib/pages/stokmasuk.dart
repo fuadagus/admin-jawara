@@ -1,4 +1,5 @@
 import 'package:admin_jawara/controller/controller.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -87,9 +88,25 @@ class _ScannerState extends State<Scanner> {
     if (!mounted) return;
 
     _controller.updateHasil(_controller.scanRes(barcodeScanRes));
-    Get.snackbar("Hasil", '${_controller.hasil.value}');
+
+    _database
+        .child("items")
+        .child("${_controller.scanRes(barcodeScanRes)}")
+        .child("stok")
+        .set(ServerValue.increment(-1));
+    _database
+        .child("items")
+        .child("${_controller.scanRes(barcodeScanRes)}")
+        .child("item")
+        .once()
+        .then((DataSnapshot snapshot) {
+      print("${snapshot.value}");
+      Get.snackbar("Stok Keluar", "${snapshot.value}");
+    });
   }
 
+  final _database = FirebaseDatabase.instance.reference();
+  final _inputcontroller = InputController();
   @override
   Widget build(BuildContext context) {
     return Obx(() => Flex(
@@ -116,14 +133,92 @@ class _ScannerState extends State<Scanner> {
                   ),
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    scanBarcodeNormal();
-                  },
-                  child: const Text(
-                    'Scan Kene Bro',
-                    style: TextStyle(color: Colors.white),
-                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Form(
+                          key: _inputcontroller.InputFormKey,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _inputcontroller.kodeController,
+                                  decoration: InputDecoration(
+                                      labelText: "Tulis manual"),
+                                  onEditingComplete: () {
+                                    _controller.updateHasil(
+                                        _inputcontroller.kodeController.text);
+                                    _inputcontroller.kodeController.clear();
+
+                                    _database
+                                        .child("items")
+                                        .child("${_controller.hasil.value}")
+                                        .child("stok")
+                                        .set(ServerValue.increment(1));
+                                    _database
+                                        .child("items")
+                                        .child("${_controller.hasil.value}")
+                                        .child("item")
+                                        .once()
+                                        .then((DataSnapshot snapshot) {
+                                      print("${snapshot.value}");
+                                      Get.snackbar(
+                                          "Stok Keluar", "${snapshot.value}");
+                                    });
+
+                                    // Get.snackbar("${namaItem}", "${sisaStok}");
+                                  },
+                                ),
+                              ),
+                              ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.red)),
+                                  onPressed: () {
+                                    _controller.updateHasil(
+                                        _inputcontroller.kodeController.text);
+                                    _inputcontroller.kodeController.clear();
+
+                                    _database
+                                        .child("items")
+                                        .child("${_controller.hasil.value}")
+                                        .child("stok")
+                                        .set(ServerValue.increment(1));
+                                    _database
+                                        .child("items")
+                                        .child("${_controller.hasil.value}")
+                                        .child("item")
+                                        .once()
+                                        .then((DataSnapshot snapshot) {
+                                      print("${snapshot.value}");
+                                      Get.snackbar(
+                                          "Stok Keluar", "${snapshot.value}");
+                                    });
+                                  },
+                                  child: Text(
+                                    "Uklik",
+                                    style: TextStyle(color: Colors.white),
+                                  ))
+                            ],
+                          )),
+                    ),
+                    Container(
+                      width: 4,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          scanBarcodeNormal();
+                        },
+                        child: const Text(
+                          'Scan',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ],
+                ),
+              ),
               Text('Hasile : ${_controller.hasil.value}\n',
                   style: const TextStyle(fontSize: 20)),
             ]));

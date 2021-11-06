@@ -1,5 +1,6 @@
 import 'package:admin_jawara/component/daftarbarang/daftarbarangitem.dart';
 import 'package:admin_jawara/responsive/responsive.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_jawara/model/model.dart';
 
@@ -13,6 +14,7 @@ class DaftarBarang extends StatefulWidget {
 class _DaftarBarangState extends State<DaftarBarang> {
   final _items = items;
   final jumlahStok = List.generate(1000, (index) => "$index");
+  final _database = FirebaseDatabase.instance.reference();
   @override
   Widget build(BuildContext context) {
     // ignore: avoid_print
@@ -26,16 +28,17 @@ class _DaftarBarangState extends State<DaftarBarang> {
             width: 200,
             child: Row(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.search),
-                      hintText: "Kode/Nama Barang",
-                    ),
-                    // onSaved: () {},
-                  ),
-                ),
+                // Expanded(
+                //   flex: 1,
+                //   child: TextFormField(
+                //     decoration: const InputDecoration(
+                //       icon: Icon(Icons.search),
+                //       hintText: "Kode/Nama Barang",
+                //     ),
+                //     // onSaved: () {},
+                //   ),
+                // ),
+
                 if (MediaQuery.of(context).size.width > 1041)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(

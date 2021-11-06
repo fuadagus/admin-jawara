@@ -69,7 +69,8 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                                   _items[index]['sisa stok'].toString(),
                                   style: const TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30),
                                 ),
                               ],
                             )),
