@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "824846152754",
-    "firebase_url": "https://admin-jawara-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "admin-jawara",
-    "storage_bucket": "admin-jawara.appspot.com"
+    "project_number": "762696794065",
+    "firebase_url": "https://admin-jawarabeladiri-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "admin-jawarabeladiri",
+    "storage_bucket": "admin-jawarabeladiri.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:824846152754:android:9be5e8eaffdbff72c7382b",
+        "mobilesdk_app_id": "1:762696794065:android:1e63715b73cf241f752af0",
         "android_client_info": {
-          "package_name": "com.example.admin_jawara"
+          "package_name": "com.jawara.adminapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "824846152754-ncujje5c6j1uvks66se6vbi3bsrvrpg7.apps.googleusercontent.com",
+          "client_id": "762696794065-emjstms3n2fkj5gio37qs9cck4guel71.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCV_5Jx7hI-Z0kcar0idkNlAK9WwOPJR2o"
+          "current_key": "AIzaSyCmKjpcXCZ6uYTI6kuuzSQCdpQVrtrfsyA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "824846152754-ncujje5c6j1uvks66se6vbi3bsrvrpg7.apps.googleusercontent.com",
+              "client_id": "762696794065-emjstms3n2fkj5gio37qs9cck4guel71.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

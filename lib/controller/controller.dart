@@ -2,7 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class ScannerController extends GetxController {
-  RxString hasil = "".obs;
+  RxString hasil = "Scan sek lor".obs;
+  RxInt kelipatan = 1.obs;
+  void updateKelipatan(value) => kelipatan.value = value;
+  void kurangiKelipatan() {
+    if (kelipatan > 1) {
+      kelipatan--;
+    }
+  }
+
+  tambahKelipatan() {
+    return kelipatan.value++;
+  }
 
   void updateHasil(_value) => hasil.value = _value;
 
@@ -62,6 +73,36 @@ class InputController extends GetxController {
     super.onInit();
   }
 
+  String inputRes(results) {
+    if (results.contains("~*~")) {
+      return results.substring(results.indexOf("~*~") + 3);
+    }
+    if (results.contains("`*`")) {
+      return results.substring(results.indexOf("`*`") + 3);
+    }
+    if (results.contains("`*~")) {
+      return results.substring(results.indexOf("`*~") + 3);
+    }
+    if (results.contains("~8`")) {
+      return results.substring(results.indexOf("~8`") + 3);
+    }
+
+    if (results.contains("`8`")) {
+      return results.substring(results.indexOf("`8`") + 3);
+    }
+    if (results.contains("`8~")) {
+      return results.substring(results.indexOf("`8~") + 3);
+    }
+    if (results.contains("~*`")) {
+      return results.substring(results.indexOf("~*`") + 3);
+    }
+    if (results.contains("~*~")) {
+      return results.substring(results.indexOf("~*~") + 3);
+    } else {
+      return results;
+    }
+  }
+
   @override
   void onClose() {
     kodeController.dispose();
@@ -72,3 +113,11 @@ class InputController extends GetxController {
     kodeController.clear();
   }
 }
+
+// class AddList extends GetxController {
+//   final addListFormKey = GlobalKey<FormState>();
+//   final kode = TextEditingController();
+//   final item = TextEditingController();
+//   final stok = TextEditingController();
+
+// }

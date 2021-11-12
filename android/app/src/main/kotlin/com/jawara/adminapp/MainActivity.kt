@@ -1,4 +1,4 @@
-package com.example.admin_jawara
+package com.jawara.adminapp
 
 import io.flutter.embedding.android.FlutterActivity
 

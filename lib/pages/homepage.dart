@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     StokKeluar(),
                     StokMasuk(),
-                    Center(child: Text("Orderan WA")),
+                    Center(child: Text("Sek Miker")),
                   ],
                 ))
               ],

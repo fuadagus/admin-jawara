@@ -13,7 +13,7 @@ class Dashboard extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(10)),
           height: 50,
-          child: const Center(child: Text("Dashboard")),
+          child: const Center(child: Text("innallaha ma'asshobirin")),
         ),
       ],
     );

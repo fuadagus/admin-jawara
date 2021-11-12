@@ -1,4 +1,6 @@
 import 'package:admin_jawara/controller/controller.dart';
+import 'package:admin_jawara/models/items.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,49 +31,18 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
+  final _database = FirebaseDatabase.instance.reference();
+  final _inputcontroller = InputController();
   String _scanBarcode = 'Scan Sek To';
   final _controller = ScannerController();
+  final _dialogController = TextEditingController();
+
   // final _hasil = Get.put(Controller().hasil.value);
 
   @override
   void initState() {
     super.initState();
   }
-
-  // Future<void> scanQR() async {
-  //   String barcodeScanRes;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-  //         '#ff6666', 'Gak Sido', true, ScanMode.QR);
-  //   } on PlatformException {
-  //     barcodeScanRes = 'Failed to get platform version.';
-  //   }
-
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) return;
-
-  //   setState(() {
-  //     _scanBarcode = barcodeScanRes;
-  //   });
-  // }
-
-  // Future<void> startBarcodeScanStream() async {
-  //   FlutterBarcodeScanner.getBarcodeStreamReceiver(
-  //           '#ff6666', 'Gak Sido', true, ScanMode.BARCODE)!
-  //       .listen((barcode) {
-  //     Get.snackbar("hasil", barcode);
-  //     Get.defaultDialog();
-  //     //   setState(() {
-  //     //     _scanBarcode = barcode;
-  //     //     Get.snackbar("Hasil", _scanBarcode);
-  //     //   });
-  //     //   print(barcode);
-  //     // }
-  //   });
-  // }
 
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
@@ -82,31 +53,24 @@ class _ScannerState extends State<Scanner> {
       barcodeScanRes = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     _controller.updateHasil(_controller.scanRes(barcodeScanRes));
 
     _database
         .child("items")
-        .child("${_controller.scanRes(barcodeScanRes)}")
-        .child("stok")
-        .set(ServerValue.increment(-1));
-    _database
-        .child("items")
-        .child("${_controller.scanRes(barcodeScanRes)}")
-        .child("item")
+        .child("${_controller.hasil.value}")
+        // .child("item")
         .once()
         .then((DataSnapshot snapshot) {
+      if (snapshot.exists)
+        _database.child("items").child("${_controller.hasil.value}").update(
+            {"stok": ServerValue.increment((_controller.kelipatan.value))});
       print("${snapshot.value}");
-      Get.snackbar("Stok Keluar", "${snapshot.value}");
+      Get.snackbar("Stok Masuk", "${snapshot.value}");
     });
   }
 
-  final _database = FirebaseDatabase.instance.reference();
-  final _inputcontroller = InputController();
   @override
   Widget build(BuildContext context) {
     return Obx(() => Flex(
@@ -118,18 +82,65 @@ class _ScannerState extends State<Scanner> {
                 child: Container(
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.greenAccent,
+                    color: Colors.green,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Stok Masuk",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.green,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          "Stok Masuk",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            _controller.kurangiKelipatan();
+                          },
+                          icon: Icon(Icons.remove_circle_outline_rounded)),
+                      Center(
+                        child: InkWell(
+                          onLongPress: () {
+                            Get.defaultDialog(
+                                barrierDismissible: true,
+                                title: "Kelipatan",
+                                content: TextField(
+                                  controller: _dialogController,
+                                  keyboardType: TextInputType.number,
+                                ),
+                                textConfirm: "Uklik",
+                                confirmTextColor: Colors.white,
+                                onConfirm: () {
+                                  _controller.updateKelipatan(
+                                      int.parse(_dialogController.text));
+                                  _dialogController.clear();
+                                  Get.back();
+                                },
+                                middleText: "");
+                          },
+                          child: Text(
+                            "${_controller.kelipatan.value.toString()} X",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            _controller.tambahKelipatan();
+                          },
+                          icon: Icon(Icons.add_circle_outline_rounded)),
+                    ],
                   ),
                 ),
               ),
@@ -148,27 +159,30 @@ class _ScannerState extends State<Scanner> {
                                   decoration: InputDecoration(
                                       labelText: "Tulis manual"),
                                   onEditingComplete: () {
-                                    _controller.updateHasil(
-                                        _inputcontroller.kodeController.text);
+                                    _controller.updateHasil(_controller.scanRes(
+                                        _inputcontroller.kodeController.text
+                                            .toUpperCase()));
                                     _inputcontroller.kodeController.clear();
 
                                     _database
                                         .child("items")
                                         .child("${_controller.hasil.value}")
-                                        .child("stok")
-                                        .set(ServerValue.increment(1));
-                                    _database
-                                        .child("items")
-                                        .child("${_controller.hasil.value}")
-                                        .child("item")
+                                        // .child("item")
                                         .once()
                                         .then((DataSnapshot snapshot) {
+                                      if (snapshot.exists)
+                                        _database
+                                            .child("items")
+                                            .child("${_controller.hasil.value}")
+                                            .update({
+                                          "stok": ServerValue.increment(
+                                              (_controller.kelipatan.value)),
+                                          // "updateAt": DateTime.now()
+                                        });
                                       print("${snapshot.value}");
                                       Get.snackbar(
                                           "Stok Keluar", "${snapshot.value}");
                                     });
-
-                                    // Get.snackbar("${namaItem}", "${sisaStok}");
                                   },
                                 ),
                               ),
@@ -178,21 +192,24 @@ class _ScannerState extends State<Scanner> {
                                           MaterialStateProperty.all<Color>(
                                               Colors.red)),
                                   onPressed: () {
-                                    _controller.updateHasil(
-                                        _inputcontroller.kodeController.text);
+                                    _controller.updateHasil(_inputcontroller
+                                        .kodeController.text
+                                        .toUpperCase());
                                     _inputcontroller.kodeController.clear();
 
                                     _database
                                         .child("items")
                                         .child("${_controller.hasil.value}")
-                                        .child("stok")
-                                        .set(ServerValue.increment(1));
-                                    _database
-                                        .child("items")
-                                        .child("${_controller.hasil.value}")
-                                        .child("item")
                                         .once()
                                         .then((DataSnapshot snapshot) {
+                                      if (snapshot.exists)
+                                        _database
+                                            .child("items")
+                                            .child("${_controller.hasil.value}")
+                                            .update({
+                                          "stok": ServerValue.increment(
+                                              (_controller.kelipatan.value))
+                                        });
                                       print("${snapshot.value}");
                                       Get.snackbar(
                                           "Stok Keluar", "${snapshot.value}");
@@ -219,8 +236,42 @@ class _ScannerState extends State<Scanner> {
                   ],
                 ),
               ),
-              Text('Hasile : ${_controller.hasil.value}\n',
+              Text('${_controller.hasil.value}\n ',
                   style: const TextStyle(fontSize: 20)),
+              StreamBuilder(
+                stream: _database
+                    .child("items")
+                    .child(_controller.hasil.value)
+                    .onValue,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  var itemName = "Gong Kedaftar";
+                  var stok = 0;
+
+                  if (snapshot.hasData &&
+                      (snapshot.data as Event).snapshot.exists) {
+                    final item = (snapshot.data as Event).snapshot.value;
+                    itemName = item["item"]!;
+                    stok = item["stok"]!;
+                    print(itemName);
+                  }
+                  return Expanded(
+                      child: Column(
+                    children: [
+                      Text(itemName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          )),
+                      SizedBox(height: 20),
+                      Text(stok.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 50,
+                          ))
+                    ],
+                  ));
+                },
+              )
             ]));
   }
 }
