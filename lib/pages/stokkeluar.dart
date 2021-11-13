@@ -244,7 +244,7 @@ class _ScannerState extends State<Scanner> {
                     .child(_controller.hasil.value)
                     .onValue,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  var itemName = "Gong Kedaftar";
+                  var itemName = "Gong Kelist";
                   var stok = 0;
 
                   if (snapshot.hasData &&
@@ -254,22 +254,34 @@ class _ScannerState extends State<Scanner> {
                     stok = item["stok"]!;
                     print(itemName);
                   }
-                  return Expanded(
-                      child: Column(
-                    children: [
-                      Text(itemName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          )),
-                      SizedBox(height: 20),
-                      Text(stok.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 50,
-                          ))
-                    ],
-                  ));
+                  return Container(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        elevation: 4,
+                        child: Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              Text(itemName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  )),
+                              SizedBox(height: 20),
+                              Text(stok.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 50,
+                                  ))
+                            ],
+                          ),
+                        )),
+                      ),
+                    ),
+                  );
                 },
               )
             ]));

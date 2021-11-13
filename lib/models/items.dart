@@ -21,10 +21,12 @@ class Item {
 
   factory Item.fromRTDB(Map<String, dynamic> value) {
     return Item(
-      item: value['item'] ?? "nama barang",
-      stok: value["stok"] ?? 0,
+      item: value["item"] ?? "nama barang",
+
+      //  value["stok"]!,
       kategori: value["kategori"] ?? "jdhgj",
       harga: value["harga"] ?? 0,
+      stok: value["stok"] ?? 0,
       // updateAt: Timestamp.fromMicrosecondsSinceEpoch(value["updateAt"]),
       // user: value["pengguna"]!
     );

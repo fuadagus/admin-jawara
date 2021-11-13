@@ -1,5 +1,4 @@
 import 'package:admin_jawara/component/header.dart';
-import 'package:admin_jawara/model/model.dart';
 import 'package:admin_jawara/models/items.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -13,43 +12,55 @@ class DaftarBarangItem extends StatefulWidget {
 }
 
 class _DaftarBarangItemState extends State<DaftarBarangItem> {
-  final _items = items;
   final _database = FirebaseDatabase.instance.reference();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        child: GradientAppBar(widget.category == "silat"
+        child: GradientAppBar(widget.category == "Alat Silat dan Beladiri"
             ? "Alat Silat dan Beladiri"
-            : "Alat Beladiri"),
-        preferredSize: Size.fromHeight(50),
+            : widget.category == "Alat Fitnes"
+                ? "Alat Fitnes"
+                : "Dekorasi Rumah"),
+        preferredSize: const Size.fromHeight(50),
       ),
-      body: Container(
-          child: StreamBuilder<Object>(
-              stream: _database.child(widget.category).onValue,
-              builder: (context, snapshot) {
-                final tileList = <Widget>[];
+      body: StreamBuilder<Object>(
+          stream: _database.child("items").onValue,
+          builder: (context, snapshot) {
+            final tileList = <Widget>[];
 
-                if (snapshot.hasData) {
-                  final _items =
-                      Map.from((snapshot.data! as Event).snapshot.value);
-                  print(_items);
-                  _items.forEach((key, value) {
-                    final _item = Item.fromRTDB(Map.from(value));
-                    final itemList = ListTile(
-                      title: Text(_item.item),
-                      subtitle: Text(_item.stok.toString()),
-                    );
+            if (snapshot.hasData) {
+              final _items = Map.from((snapshot.data! as Event).snapshot.value);
+              print(_items);
+              print(_items["1000"]);
+              _items.forEach((key, value) {
+                final _item = Item.fromRTDB(Map.from(value));
+                final itemList = Visibility(
+                    visible: _item.kategori != widget.category ? false : true,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Card(
+                        elevation: 2,
+                        child: ListTile(
+                          leading: Text(key),
+                          title: Text(_item.item),
+                          subtitle: Text(_item.stok.toString()),
+                          trailing: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.more_vert_rounded)),
+                        ),
+                      ),
+                    ));
 
-                    tileList.add(itemList);
+                tileList.add(itemList);
 
-                    print(tileList.contains("1000"));
-                  });
-                }
-                return ListView(
-                  children: tileList,
-                );
-              })),
+                print(tileList.contains("1000"));
+              });
+            }
+            return ListView(
+              children: tileList,
+            );
+          }),
     );
   }
 }

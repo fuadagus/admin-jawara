@@ -4,7 +4,7 @@ class GradientAppBar extends StatelessWidget {
   final String title;
   final double barHeight = 50.0;
 
-  GradientAppBar(this.title);
+  const GradientAppBar(this.title);
 
   @override
   Widget build(BuildContext context) {
