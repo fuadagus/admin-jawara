@@ -36,6 +36,7 @@ class _ScannerState extends State<Scanner> {
   String _scanBarcode = 'Scan Sek To';
   final _controller = ScannerController();
   final _dialogController = TextEditingController();
+  final lastScan = <Widget>[];
 
   // final _hasil = Get.put(Controller().hasil.value);
 
@@ -68,6 +69,15 @@ class _ScannerState extends State<Scanner> {
             {"stok": ServerValue.increment(-(_controller.kelipatan.value))});
       print("${snapshot.value}");
       Get.snackbar("Stok Keluar", "${snapshot.value}");
+      final addList = ListTile(
+        leading: Text(_controller.hasil.value),
+        title: Text(_controller.kelipatan.value.toString()),
+        // subtitle: Text(_item.stok.toString()),
+        // trailing: IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(Icons.more_vert_rounded)),
+      );
+      lastScan.add(addList);
     });
   }
 
@@ -213,6 +223,16 @@ class _ScannerState extends State<Scanner> {
                                       print("${snapshot.value}");
                                       Get.snackbar(
                                           "Stok Keluar", "${snapshot.value}");
+                                      final addList = ListTile(
+                                        leading: Text(_controller.hasil.value),
+                                        title: Text(_controller.kelipatan.value
+                                            .toString()),
+                                        // subtitle: Text(_item.stok.toString()),
+                                        // trailing: IconButton(
+                                        //     onPressed: () {},
+                                        //     icon: Icon(Icons.more_vert_rounded)),
+                                      );
+                                      lastScan.add(addList);
                                     });
                                   },
                                   child: Text(
@@ -283,7 +303,11 @@ class _ScannerState extends State<Scanner> {
                     ),
                   );
                 },
-              )
+              ),
+              Expanded(
+                  child: ListView(
+                children: lastScan,
+              ))
             ]));
   }
 }
