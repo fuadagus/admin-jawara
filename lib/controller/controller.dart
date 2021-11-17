@@ -114,10 +114,13 @@ class InputController extends GetxController {
   }
 }
 
-// class AddList extends GetxController {
-//   final addListFormKey = GlobalKey<FormState>();
-//   final kode = TextEditingController();
-//   final item = TextEditingController();
-//   final stok = TextEditingController();
+class EditBarangController extends GetxController {
+  RxString nama = "fdg".obs;
+  String id = "";
+  int stok = 0;
+  int harga = 0;
 
-// }
+  editNama(value) {
+    return nama.value = value;
+  }
+}

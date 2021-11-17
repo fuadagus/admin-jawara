@@ -3,7 +3,7 @@ import 'package:admin_jawara/component/daftarbarang/daftarbaranglist.dart';
 import 'package:admin_jawara/responsive/responsive.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:admin_jawara/model/model.dart';
+
 import 'package:get/get.dart';
 
 class DaftarBarang extends StatefulWidget {
@@ -14,7 +14,7 @@ class DaftarBarang extends StatefulWidget {
 }
 
 class _DaftarBarangState extends State<DaftarBarang> {
-  final _items = items;
+  // final _items = items;
   final jumlahStok = List.generate(1000, (index) => "$index");
   final _database = FirebaseDatabase.instance.reference();
   // final _listAddController = TextEditingController();

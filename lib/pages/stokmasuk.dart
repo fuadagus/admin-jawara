@@ -67,7 +67,7 @@ class _ScannerState extends State<Scanner> {
         _database.child("items").child("${_controller.hasil.value}").update(
             {"stok": ServerValue.increment((_controller.kelipatan.value))});
       print("${snapshot.value}");
-      Get.snackbar("Stok Masuk", "${snapshot.value}");
+      // Get.snackbar("Stok Masuk", "${snapshot.value}");
     });
   }
 
@@ -180,8 +180,8 @@ class _ScannerState extends State<Scanner> {
                                           // "updateAt": DateTime.now()
                                         });
                                       print("${snapshot.value}");
-                                      Get.snackbar(
-                                          "Stok Keluar", "${snapshot.value}");
+                                      // Get.snackbar(
+                                      //     "Stok Keluar", "${snapshot.value}");
                                     });
                                   },
                                 ),
@@ -211,8 +211,6 @@ class _ScannerState extends State<Scanner> {
                                               (_controller.kelipatan.value))
                                         });
                                       print("${snapshot.value}");
-                                      Get.snackbar(
-                                          "Stok Keluar", "${snapshot.value}");
                                     });
                                   },
                                   child: Text(

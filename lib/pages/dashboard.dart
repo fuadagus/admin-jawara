@@ -1,8 +1,11 @@
 import 'package:admin_jawara/controller/controller.dart';
+import 'package:admin_jawara/models/items.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_jawara/pages/homepage.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -14,6 +17,24 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   final _database = FirebaseDatabase.instance.reference();
   final _controller = ScannerController();
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Gak Sido', true, ScanMode.BARCODE);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    _controller.updateHasil(_controller.scanRes(barcodeScanRes));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +42,35 @@ class _DashboardState extends State<Dashboard> {
             direction: Axis.vertical,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              StreamBuilder(
+                  stream: _database.child("items").onValue,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    var totalAset = [];
+                    num sum = 0;
+                    if (snapshot.hasData) {
+                      final _items =
+                          Map.from((snapshot.data! as Event).snapshot.value);
+                      _items.forEach((key, value) {
+                        final _item = Item.fromRTDB(Map.from(value));
+                        final asetItem = _item.harga * _item.stok;
+                        totalAset.add(asetItem);
+                      });
+                      totalAset.forEach((element) {
+                        sum = sum + element;
+                      });
+                    }
+
+                    return Container(
+                      child: Text(
+                        "Total Aset: Rp ${sum.toString()}",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 20,
+              ),
               StreamBuilder(
                 stream: _database
                     .child("items")
@@ -81,13 +131,15 @@ class _DashboardState extends State<Dashboard> {
                                     fontSize: 50,
                                   )),
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    scanBarcodeNormal();
+                                  },
                                   child: Text(
                                     "Scan",
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
-                                  ))
+                                  )),
                             ],
                           ),
                         ),

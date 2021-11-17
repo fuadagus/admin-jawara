@@ -1,7 +1,10 @@
+import 'package:admin_jawara/component/daftarbarang/edititem.dart';
+import 'package:admin_jawara/component/daftarbarang/formeditlist.dart';
 import 'package:admin_jawara/component/header.dart';
 import 'package:admin_jawara/models/items.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DaftarBarangItem extends StatefulWidget {
   const DaftarBarangItem({Key? key, required this.category}) : super(key: key);
@@ -44,9 +47,17 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                         child: ListTile(
                           leading: Text(key),
                           title: Text(_item.item),
-                          subtitle: Text(_item.stok.toString()),
+                          subtitle: Text(
+                              "Sisa stok: ${_item.stok.toString()}  Harga: ${_item.harga} \nTotal Aset: ${_item.stok * _item.harga}"),
                           trailing: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(EditBarang(
+                                    kategori: _item.kategori,
+                                    nama: _item.item,
+                                    harga: _item.harga,
+                                    id: key,
+                                    stok: _item.stok));
+                              },
                               icon: Icon(Icons.more_vert_rounded)),
                         ),
                       ),

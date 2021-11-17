@@ -68,7 +68,7 @@ class _ScannerState extends State<Scanner> {
         _database.child("items").child("${_controller.hasil.value}").update(
             {"stok": ServerValue.increment(-(_controller.kelipatan.value))});
       print("${snapshot.value}");
-      Get.snackbar("Stok Keluar", "${snapshot.value}");
+      // Get.snackbar("Stok Keluar", "${snapshot.value}");
       final addList = ListTile(
         leading: Text(_controller.hasil.value),
         title: Text(_controller.kelipatan.value.toString()),
@@ -83,231 +83,235 @@ class _ScannerState extends State<Scanner> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Flex(
-            direction: Axis.vertical,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Text(
-                          "Stok Keluar",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
+    return Obx(() => Column(
+          children: [
+            Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            _controller.kurangiKelipatan();
-                          },
-                          icon: Icon(Icons.remove_circle_outline_rounded)),
-                      Center(
-                        child: InkWell(
-                          onLongPress: () {
-                            Get.defaultDialog(
-                                barrierDismissible: true,
-                                title: "Kelipatan",
-                                content: TextField(
-                                  controller: _dialogController,
-                                  keyboardType: TextInputType.number,
-                                ),
-                                textConfirm: "Uklik",
-                                confirmTextColor: Colors.white,
-                                onConfirm: () {
-                                  Get.back();
-                                  _controller.updateKelipatan(
-                                      int.parse(_dialogController.text));
-                                  _dialogController.clear();
-                                },
-                                middleText: "");
-                          },
-                          child: Text(
-                            "${_controller.kelipatan.value.toString()} X",
-                            style: TextStyle(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text(
+                              "Stok Keluar",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                _controller.kurangiKelipatan();
+                              },
+                              icon: Icon(Icons.remove_circle_outline_rounded)),
+                          Center(
+                            child: InkWell(
+                              onLongPress: () {
+                                Get.defaultDialog(
+                                    barrierDismissible: true,
+                                    title: "Kelipatan",
+                                    content: TextField(
+                                      controller: _dialogController,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                    textConfirm: "Uklik",
+                                    confirmTextColor: Colors.white,
+                                    onConfirm: () {
+                                      Get.back();
+                                      _controller.updateKelipatan(
+                                          int.parse(_dialogController.text));
+                                      _dialogController.clear();
+                                    },
+                                    middleText: "");
+                              },
+                              child: Text(
+                                "${_controller.kelipatan.value.toString()} X",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                _controller.tambahKelipatan();
+                              },
+                              icon: Icon(Icons.add_circle_outline_rounded)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Form(
+                              key: _inputcontroller.InputFormKey,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller:
+                                          _inputcontroller.kodeController,
+                                      decoration: InputDecoration(
+                                          labelText: "Tulis manual"),
+                                      onEditingComplete: () {
+                                        _controller.updateHasil(
+                                            _controller.scanRes(_inputcontroller
+                                                .kodeController.text
+                                                .toUpperCase()));
+                                        _inputcontroller.kodeController.clear();
+
+                                        _database
+                                            .child("items")
+                                            .child("${_controller.hasil.value}")
+                                            // .child("item")
+                                            .once()
+                                            .then((DataSnapshot snapshot) {
+                                          if (snapshot.exists)
+                                            _database
+                                                .child("items")
+                                                .child(
+                                                    "${_controller.hasil.value}")
+                                                .update({
+                                              "stok": ServerValue.increment(
+                                                  -(_controller
+                                                      .kelipatan.value)),
+                                              // "updateAt": DateTime.now()
+                                            });
+                                          print("${snapshot.value}");
+                                          // Get.snackbar("Stok Keluar",
+                                          //     "${snapshot.value}");
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.red)),
+                                      onPressed: () {
+                                        _controller.updateHasil(_inputcontroller
+                                            .kodeController.text
+                                            .toUpperCase());
+                                        _inputcontroller.kodeController.clear();
+
+                                        _database
+                                            .child("items")
+                                            .child("${_controller.hasil.value}")
+                                            .once()
+                                            .then((DataSnapshot snapshot) {
+                                          if (snapshot.exists)
+                                            _database
+                                                .child("items")
+                                                .child(
+                                                    "${_controller.hasil.value}")
+                                                .update({
+                                              "stok": ServerValue.increment(
+                                                  -(_controller
+                                                      .kelipatan.value))
+                                            });
+                                          print("${snapshot.value}");
+                                          // Get.snackbar("Stok Keluar",
+                                          //     "${snapshot.value}");
+                                          // final addList = ListTile(
+                                          //   title: Text(_controller
+                                          //       .kelipatan.value
+                                          //       .toString()),
+                                          //   subtitle:
+                                          //       Text(_controller.hasil.value),
+                                          // );
+                                          // lastScan.add(addList);
+                                        });
+                                      },
+                                      child: Text(
+                                        "Uklik",
+                                        style: TextStyle(color: Colors.white),
+                                      ))
+                                ],
+                              )),
+                        ),
+                        Container(
+                          width: 4,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              scanBarcodeNormal();
+                            },
+                            child: const Text(
+                              'Scan',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Text('${_controller.hasil.value}\n ',
+                      style: const TextStyle(fontSize: 20)),
+                  StreamBuilder(
+                    stream: _database
+                        .child("items")
+                        .child(_controller.hasil.value)
+                        .onValue,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      var itemName = "Gong Kelist";
+                      var stok = 0;
+
+                      if (snapshot.hasData &&
+                          (snapshot.data as Event).snapshot.exists) {
+                        final item = (snapshot.data as Event).snapshot.value;
+                        itemName = item["item"]!;
+                        stok = item["stok"]!;
+                        print(itemName);
+                      }
+                      return Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 4,
+                            child: Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Text(itemName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      )),
+                                  SizedBox(height: 20),
+                                  Text(stok.toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 50,
+                                      ))
+                                ],
+                              ),
+                            )),
                           ),
                         ),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            _controller.tambahKelipatan();
-                          },
-                          icon: Icon(Icons.add_circle_outline_rounded)),
-                    ],
+                      );
+                    },
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Form(
-                          key: _inputcontroller.InputFormKey,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  controller: _inputcontroller.kodeController,
-                                  decoration: InputDecoration(
-                                      labelText: "Tulis manual"),
-                                  onEditingComplete: () {
-                                    _controller.updateHasil(_controller.scanRes(
-                                        _inputcontroller.kodeController.text
-                                            .toUpperCase()));
-                                    _inputcontroller.kodeController.clear();
-
-                                    _database
-                                        .child("items")
-                                        .child("${_controller.hasil.value}")
-                                        // .child("item")
-                                        .once()
-                                        .then((DataSnapshot snapshot) {
-                                      if (snapshot.exists)
-                                        _database
-                                            .child("items")
-                                            .child("${_controller.hasil.value}")
-                                            .update({
-                                          "stok": ServerValue.increment(
-                                              -(_controller.kelipatan.value)),
-                                          // "updateAt": DateTime.now()
-                                        });
-                                      print("${snapshot.value}");
-                                      Get.snackbar(
-                                          "Stok Keluar", "${snapshot.value}");
-                                    });
-                                  },
-                                ),
-                              ),
-                              ElevatedButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.red)),
-                                  onPressed: () {
-                                    _controller.updateHasil(_inputcontroller
-                                        .kodeController.text
-                                        .toUpperCase());
-                                    _inputcontroller.kodeController.clear();
-
-                                    _database
-                                        .child("items")
-                                        .child("${_controller.hasil.value}")
-                                        .once()
-                                        .then((DataSnapshot snapshot) {
-                                      if (snapshot.exists)
-                                        _database
-                                            .child("items")
-                                            .child("${_controller.hasil.value}")
-                                            .update({
-                                          "stok": ServerValue.increment(
-                                              -(_controller.kelipatan.value))
-                                        });
-                                      print("${snapshot.value}");
-                                      Get.snackbar(
-                                          "Stok Keluar", "${snapshot.value}");
-                                      final addList = ListTile(
-                                        leading: Text(_controller.hasil.value),
-                                        title: Text(_controller.kelipatan.value
-                                            .toString()),
-                                        // subtitle: Text(_item.stok.toString()),
-                                        // trailing: IconButton(
-                                        //     onPressed: () {},
-                                        //     icon: Icon(Icons.more_vert_rounded)),
-                                      );
-                                      lastScan.add(addList);
-                                    });
-                                  },
-                                  child: Text(
-                                    "Uklik",
-                                    style: TextStyle(color: Colors.white),
-                                  ))
-                            ],
-                          )),
-                    ),
-                    Container(
-                      width: 4,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          scanBarcodeNormal();
-                        },
-                        child: const Text(
-                          'Scan',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  ],
-                ),
-              ),
-              Text('${_controller.hasil.value}\n ',
-                  style: const TextStyle(fontSize: 20)),
-              StreamBuilder(
-                stream: _database
-                    .child("items")
-                    .child(_controller.hasil.value)
-                    .onValue,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  var itemName = "Gong Kelist";
-                  var stok = 0;
-
-                  if (snapshot.hasData &&
-                      (snapshot.data as Event).snapshot.exists) {
-                    final item = (snapshot.data as Event).snapshot.value;
-                    itemName = item["item"]!;
-                    stok = item["stok"]!;
-                    print(itemName);
-                  }
-                  return Container(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        elevation: 4,
-                        child: Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(itemName,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  )),
-                              SizedBox(height: 20),
-                              Text(stok.toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 50,
-                                  ))
-                            ],
-                          ),
-                        )),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              Expanded(
-                  child: ListView(
-                children: lastScan,
-              ))
-            ]));
+                ]),
+          ],
+        ));
   }
 }
