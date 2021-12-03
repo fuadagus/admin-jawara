@@ -250,7 +250,6 @@ class _ScannerState extends State<Scanner> {
                     final item = (snapshot.data as Event).snapshot.value;
                     itemName = item["item"]!;
                     stok = item["stok"]!;
-                    print(itemName);
                   }
                   return Container(
                     width: double.infinity,

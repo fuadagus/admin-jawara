@@ -26,48 +26,6 @@ class _DaftarBarangState extends State<DaftarBarang> {
     // ignore: avoid_print
     print(MediaQuery.of(context).size);
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Get.defaultDialog(
-      //         title: "Tambah List Barang",
-      //         middleText: "",
-      //         content: Column(
-      //           children: [
-      //             Row(
-      //               children: [
-      //                 Expanded(child: Text("Kode Barang")),
-      //                 TextField(
-      //                   controller: _kodeController,
-      //                 ),
-      //               ],
-      //             ),
-      //             Row(
-      //               children: [
-      //                 Expanded(child: Text("Nama Barang")),
-      //                 TextField(
-      //                   controller: _itemController,
-      //                 ),
-      //               ],
-      //             ),
-      //             Row(
-      //               children: [
-      //                 Expanded(child: Text("Jumlah Barang")),
-      //                 TextField(
-      //                   controller: _stokController,
-      //                 ),
-      //               ],
-      //             ),
-      //           ],
-      //         )
-
-      //         // TextFormField()
-      //         );
-      //   },
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      // ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -81,18 +39,12 @@ class _DaftarBarangState extends State<DaftarBarang> {
               ),
             ),
           ),
-          // const SizedBox(
-          //   height: 30,
-          // ),
           Expanded(
             child: Container(
               height: MediaQuery.of(context).size.height,
               child: const Kategori(),
             ),
           ),
-          // Expanded(
-          //   child: Footer(),
-          // )
         ],
       ),
     );

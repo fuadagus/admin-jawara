@@ -106,9 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: const [
                     Dashboard(),
                     DaftarBarang(),
-                    // Center(
-                    //   child: Text("Stok Keluar"),
-                    // ),
                     StokKeluar(),
                     StokMasuk(),
                     Center(child: Text("Sek Miker")),

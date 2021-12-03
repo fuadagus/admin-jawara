@@ -1,3 +1,4 @@
+import 'package:admin_jawara/pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:admin_jawara/pages/homepage.dart';
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme)),
-      home: const MyHomePage(),
+      home:
+          // LoginPage(),
+          const MyHomePage(),
     );
   }
 }

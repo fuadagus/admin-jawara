@@ -6,6 +6,9 @@ import 'package:admin_jawara/pages/homepage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:intl/intl.dart';
+
+final rupiah = new NumberFormat("#,##0.00", "id_ID");
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -62,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
 
                     return Container(
                       child: Text(
-                        "Total Aset: Rp ${sum.toString()}",
+                        "Total Aset: Rp ${rupiah.format(sum).toString()}",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),

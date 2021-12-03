@@ -1,10 +1,12 @@
+import 'package:admin_jawara/component/daftarbarang/additem.dart';
 import 'package:admin_jawara/component/daftarbarang/edititem.dart';
-import 'package:admin_jawara/component/daftarbarang/formeditlist.dart';
 import 'package:admin_jawara/component/header.dart';
 import 'package:admin_jawara/models/items.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:admin_jawara/pages/dashboard.dart';
 
 class DaftarBarangItem extends StatefulWidget {
   const DaftarBarangItem({Key? key, required this.category}) : super(key: key);
@@ -19,12 +21,21 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add),
+        onPressed: () {
+          Get.to(TambahBarang(kategori: widget.category));
+        },
+      ),
       appBar: PreferredSize(
         child: GradientAppBar(widget.category == "Alat Silat dan Beladiri"
             ? "Alat Silat dan Beladiri"
             : widget.category == "Alat Fitnes"
-                ? "Alat Fitnes"
-                : "Dekorasi Rumah"),
+                ? "Alat Fitnes & Olahraga"
+                : widget.category == "Dekorasi Rumah"
+                    ? "Dekorasi Rumah & Perabot"
+                    : "Atribut Pencak Silat"),
         preferredSize: const Size.fromHeight(50),
       ),
       body: StreamBuilder<Object>(
@@ -34,8 +45,7 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
 
             if (snapshot.hasData) {
               final _items = Map.from((snapshot.data! as Event).snapshot.value);
-              print(_items);
-              print(_items["1000"]);
+
               _items.forEach((key, value) {
                 final _item = Item.fromRTDB(Map.from(value));
                 final itemList = Visibility(
@@ -48,7 +58,7 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                           leading: Text(key),
                           title: Text(_item.item),
                           subtitle: Text(
-                              "Sisa stok: ${_item.stok.toString()}  Harga: ${_item.harga} \nTotal Aset: ${_item.stok * _item.harga}"),
+                              "Sisa stok: ${_item.stok.toString()}  Harga: ${_item.harga} \nTotal Aset: Rp ${rupiah.format(_item.stok * _item.harga)}"),
                           trailing: IconButton(
                               onPressed: () {
                                 Get.to(EditBarang(
@@ -64,8 +74,6 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
                     ));
 
                 tileList.add(itemList);
-
-                print(tileList.contains("1000"));
               });
             }
             return ListView(
