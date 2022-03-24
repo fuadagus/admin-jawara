@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "762696794065-ehla0007vpu1chsr4rhnon6boeponaos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jawara.adminapp",
+            "certificate_hash": "f3e13657b3edc56f333324594c1619782e3515f8"
+          }
+        },
+        {
           "client_id": "762696794065-emjstms3n2fkj5gio37qs9cck4guel71.apps.googleusercontent.com",
           "client_type": 3
         }

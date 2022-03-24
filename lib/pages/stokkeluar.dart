@@ -55,30 +55,31 @@ class _ScannerState extends State<Scanner> {
     }
 
     if (!mounted) return;
+    if (_inputcontroller.kodeController.text != null) {
+      _controller.updateHasil(_controller.scanRes(barcodeScanRes));
 
-    _controller.updateHasil(_controller.scanRes(barcodeScanRes));
-
-    _database
-        .child("items")
-        .child("${_controller.hasil.value}")
-        // .child("item")
-        .once()
-        .then((DataSnapshot snapshot) {
-      if (snapshot.exists)
-        _database.child("items").child("${_controller.hasil.value}").update(
-            {"stok": ServerValue.increment(-(_controller.kelipatan.value))});
-      print("${snapshot.value}");
-      // Get.snackbar("Stok Keluar", "${snapshot.value}");
-      final addList = ListTile(
-        leading: Text(_controller.hasil.value),
-        title: Text(_controller.kelipatan.value.toString()),
-        // subtitle: Text(_item.stok.toString()),
-        // trailing: IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.more_vert_rounded)),
-      );
-      lastScan.add(addList);
-    });
+      _database
+          .child("items")
+          .child("${_controller.hasil.value}")
+          // .child("item")
+          .once()
+          .then((DataSnapshot snapshot) {
+        if (snapshot.exists)
+          _database.child("items").child("${_controller.hasil.value}").update(
+              {"stok": ServerValue.increment(-(_controller.kelipatan.value))});
+        print("${snapshot.value}");
+        // Get.snackbar("Stok Keluar", "${snapshot.value}");
+        final addList = ListTile(
+          leading: Text(_controller.hasil.value),
+          title: Text(_controller.kelipatan.value.toString()),
+          // subtitle: Text(_item.stok.toString()),
+          // trailing: IconButton(
+          //     onPressed: () {},
+          //     icon: Icon(Icons.more_vert_rounded)),
+        );
+        lastScan.add(addList);
+      });
+    }
   }
 
   @override
@@ -167,40 +168,45 @@ class _ScannerState extends State<Scanner> {
                                 children: [
                                   Expanded(
                                     child: TextFormField(
-                                      controller:
-                                          _inputcontroller.kodeController,
-                                      decoration: InputDecoration(
-                                          labelText: "Tulis manual"),
-                                      onEditingComplete: () {
-                                        _controller.updateHasil(
-                                            _controller.scanRes(_inputcontroller
-                                                .kodeController.text
-                                                .toUpperCase()));
-                                        _inputcontroller.kodeController.clear();
+                                        controller:
+                                            _inputcontroller.kodeController,
+                                        decoration: InputDecoration(
+                                            labelText: "Tulis manual"),
+                                        onEditingComplete: () {
+                                          if (_inputcontroller
+                                                  .kodeController.text !=
+                                              null) {
+                                            _controller.updateHasil(_controller
+                                                .scanRes(_inputcontroller
+                                                    .kodeController.text
+                                                    .toUpperCase()));
+                                            _inputcontroller.kodeController
+                                                .clear();
 
-                                        _database
-                                            .child("items")
-                                            .child("${_controller.hasil.value}")
-                                            // .child("item")
-                                            .once()
-                                            .then((DataSnapshot snapshot) {
-                                          if (snapshot.exists)
                                             _database
                                                 .child("items")
                                                 .child(
                                                     "${_controller.hasil.value}")
-                                                .update({
-                                              "stok": ServerValue.increment(
-                                                  -(_controller
-                                                      .kelipatan.value)),
-                                              // "updateAt": DateTime.now()
+                                                // .child("item")
+                                                .once()
+                                                .then((DataSnapshot snapshot) {
+                                              if (snapshot.exists)
+                                                _database
+                                                    .child("items")
+                                                    .child(
+                                                        "${_controller.hasil.value}")
+                                                    .update({
+                                                  "stok": ServerValue.increment(
+                                                      -(_controller
+                                                          .kelipatan.value)),
+                                                  // "updateAt": DateTime.now()
+                                                });
+                                              print("${snapshot.value}");
+                                              // Get.snackbar("Stok Keluar",
+                                              //     "${snapshot.value}");
                                             });
-                                          print("${snapshot.value}");
-                                          // Get.snackbar("Stok Keluar",
-                                          //     "${snapshot.value}");
-                                        });
-                                      },
-                                    ),
+                                          }
+                                        }),
                                   ),
                                   ElevatedButton(
                                       style: ButtonStyle(
@@ -208,38 +214,45 @@ class _ScannerState extends State<Scanner> {
                                               MaterialStateProperty.all<Color>(
                                                   Colors.red)),
                                       onPressed: () {
-                                        _controller.updateHasil(_inputcontroller
-                                            .kodeController.text
-                                            .toUpperCase());
-                                        _inputcontroller.kodeController.clear();
+                                        if (_inputcontroller
+                                                .kodeController.text !=
+                                            null) {
+                                          _controller.updateHasil(
+                                              _inputcontroller
+                                                  .kodeController.text
+                                                  .toUpperCase());
+                                          _inputcontroller.kodeController
+                                              .clear();
 
-                                        _database
-                                            .child("items")
-                                            .child("${_controller.hasil.value}")
-                                            .once()
-                                            .then((DataSnapshot snapshot) {
-                                          if (snapshot.exists)
-                                            _database
-                                                .child("items")
-                                                .child(
-                                                    "${_controller.hasil.value}")
-                                                .update({
-                                              "stok": ServerValue.increment(
-                                                  -(_controller
-                                                      .kelipatan.value))
-                                            });
-                                          print("${snapshot.value}");
-                                          // Get.snackbar("Stok Keluar",
-                                          //     "${snapshot.value}");
-                                          // final addList = ListTile(
-                                          //   title: Text(_controller
-                                          //       .kelipatan.value
-                                          //       .toString()),
-                                          //   subtitle:
-                                          //       Text(_controller.hasil.value),
-                                          // );
-                                          // lastScan.add(addList);
-                                        });
+                                          _database
+                                              .child("items")
+                                              .child(
+                                                  "${_controller.hasil.value}")
+                                              .once()
+                                              .then((DataSnapshot snapshot) {
+                                            if (snapshot.exists)
+                                              _database
+                                                  .child("items")
+                                                  .child(
+                                                      "${_controller.hasil.value}")
+                                                  .update({
+                                                "stok": ServerValue.increment(
+                                                    -(_controller
+                                                        .kelipatan.value))
+                                              });
+                                            print("${snapshot.value}");
+                                            // Get.snackbar("Stok Keluar",
+                                            //     "${snapshot.value}");
+                                            // final addList = ListTile(
+                                            //   title: Text(_controller
+                                            //       .kelipatan.value
+                                            //       .toString()),
+                                            //   subtitle:
+                                            //       Text(_controller.hasil.value),
+                                            // );
+                                            // lastScan.add(addList);
+                                          });
+                                        }
                                       },
                                       child: Text(
                                         "Uklik",

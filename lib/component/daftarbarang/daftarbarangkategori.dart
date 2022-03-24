@@ -17,6 +17,40 @@ class Kategori extends StatelessWidget {
               onTap: () {
                 Get.to(
                     const DaftarBarangItem(
+                      category: "Senjata Beladiri",
+                    ),
+                    transition: Transition.cupertino);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: const DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/senjata.jpg"))),
+                  child: const Center(
+                      child: Text(
+                    "Senjata Beladiri",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  )),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 250,
+          child: Expanded(
+            child: InkWell(
+              onTap: () {
+                Get.to(
+                    const DaftarBarangItem(
                       category: "Alat Silat dan Beladiri",
                     ),
                     transition: Transition.cupertino);
@@ -169,6 +203,40 @@ class Kategori extends StatelessWidget {
                   child: const Center(
                       child: Text(
                     "Atribut Silat",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  )),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 250,
+          child: Expanded(
+            child: InkWell(
+              onTap: () {
+                Get.to(
+                    const DaftarBarangItem(
+                      category: "Esensial",
+                    ),
+                    transition: Transition.cupertino);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: const DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/Essens.jpg"))),
+                  child: const Center(
+                      child: Text(
+                    "Esensial",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,

@@ -33,9 +33,15 @@ class _DaftarBarangItemState extends State<DaftarBarangItem> {
             ? "Alat Silat dan Beladiri"
             : widget.category == "Alat Fitnes"
                 ? "Alat Fitnes & Olahraga"
-                : widget.category == "Dekorasi Rumah"
-                    ? "Dekorasi Rumah & Perabot"
-                    : "Atribut Pencak Silat"),
+                : widget.category == "Hobi"
+                    ? "Hobi"
+                    : widget.category == "Dekorasi Rumah"
+                        ? "Dekorasi Rumah & Perabot"
+                        : widget.category == "Atribut Pencak Silat"
+                            ? "Atribut Pencak Silat"
+                            : widget.category == "Senjata Beladiri"
+                                ? "Senjata Beladiri"
+                                : "Alat Latihan Target Sasaran"),
         preferredSize: const Size.fromHeight(50),
       ),
       body: StreamBuilder<Object>(
